@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin, ProfileForm, UserForm
+from .forms import UserSignup, UserLogin, UserForm
 from django.contrib import messages
-from .models import (Message, Profile,)
+from .models import (Message,)
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
-def home(request):
-	return render(request, 'home.html')
+# def home(request):
+# 	return render(request, 'home.html')
 
 class Signup(View):
 	form_class = UserSignup
@@ -64,3 +64,36 @@ class Logout(View):
 		logout(request)
 		messages.success(request, "You have successfully logged out.")
 		return redirect("login")
+
+def no_access(request):
+	return render(request, 'no_access.html')
+
+#####################
+
+
+def profile(request, user_id):
+	user = User.objects.get(id=user_id)
+	messages = Message.objects.filter(teacher= user)
+	context = {
+		"user": user,
+		"messages": messages,
+	}
+
+	return render(request, 'profile.html', context)
+
+
+def professors_list(request):
+	professors = User.objects.all()
+
+	if request.GET.get('q'):
+		q = request.GET.get('q')
+		query = Q(username__contains=q)|Q(first_name__contains=q)|Q(last_name__contains=q)
+		professors = User.objects.filter(query)
+
+	context = {
+		"professors" : professors
+	}
+
+	return render(request, 'home.html', context)
+
+

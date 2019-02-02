@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<header class=" text-center text-white" style=" background: transparent;">
-
+<div class=" text-center text-white" style=" background: transparent;">
+    
  
     <div class="container-responsive">
       <h1 >All the messages,</h1>
@@ -10,13 +10,12 @@
       <br>
       {% if request.user.is_anonymous %}
         <a href="{% url 'signup' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Sign up to read your messages!</a>
-      {% else %}
-        <a href="{% url 'messages' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Read messages!</a>
+      
       {% endif %}
 
     </div>
-</header>
+</div>
 
-
+{{professors}}
 
 {% endblock %}

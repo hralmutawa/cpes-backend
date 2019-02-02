@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Message, Profile
+from .models import Message
 
 class UserSignup(forms.ModelForm):
     class Meta:
@@ -20,22 +20,8 @@ class UserLogin(forms.Form):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['title', 'content', 'date', 'time' ,]
+        fields = ['title', 'content', ]
 
-        widgets={
-        'date': forms.DateInput(attrs={'type':'date'}),
-        'time': forms.TimeInput(attrs={'type':'time'}),
-        }
-
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['bio', 'location', 'birth_date',]
-
-        widgets={
-        'birth_date': forms.DateInput(attrs={'type':'date'}),
-        }
 
 class UserForm(forms.ModelForm):
     class Meta:
